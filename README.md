@@ -5,11 +5,9 @@ A dependency-free Julia port of [@karpathy](https://github.com/karpathy)'s [micr
 The most atomic way to train and run inference for a GPT in pure Julia. No shortcuts. Every operation is tracked as a scalar `Value` node through a hand-rolled autograd engine.
 
 ## What it does
-
 Trains a small character-level GPT on a list of names, then generates new hallucinated names at inference time. The entire algorithm: dataset, tokeniser, autograd, transformer, optimiser, inference, lives in a single file.
 
 ## Requirements
-
 - Julia 1.9+
 - Standard library only (`Random`, `Downloads`) — no external packages needed for training
 - `BenchmarkTools.jl` for benchmarking only (optional)
@@ -21,9 +19,7 @@ To install BenchmarkTools:
 ```
 
 ## Usage
-
 ### Run training + inference
-
 ```bash
 julia microgpt.jl
 ```
@@ -34,8 +30,8 @@ The script will:
 2. Train for 1000 steps, printing loss at each step
 3. Generate 20 hallucinated names at inference time
 4. 
-### Expected output
 
+### Expected output
 ```
 num docs: 32033
 vocab size: 27
@@ -48,7 +44,6 @@ sample  2: charil
 ```
 
 ## How it works
-
 The implementation follows GPT-2's architecture with a few simplifications:
 
 **Autograd**: a `Value` struct wraps every scalar, storing its data, gradient, children, and local gradients. `backward!()` performs a topological sort of the computation graph and applies the chain rule in reverse.
@@ -67,7 +62,6 @@ The implementation follows GPT-2's architecture with a few simplifications:
 **Inference**: temperature-scaled softmax with weighted categorical sampling, implemented without any dependencies.
 
 ### Architecture hyperparameters
-
 |Parameter|Value|
 |---|---|
 |Layers|1|
@@ -78,7 +72,6 @@ The implementation follows GPT-2's architecture with a few simplifications:
 |Total params|5408|
 
 ## Benchmarks
-
 Measured on Apple MacBook Pro (M-series), full training loop of 1000 steps:
 
 |Implementation|Total training time|Single forward pass|
@@ -100,5 +93,4 @@ input.txt       # auto-downloaded on first run
 ---
 
 ## Credits
-
 Based on [microgpt.py](https://github.com/karpathy/makemore) by Andrej Karpathy. Julia port by Vuk.
